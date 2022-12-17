@@ -11,7 +11,7 @@ import org.openqa.selenium.json.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MarketAlertUM {
+public class MarketAlertUmAPI {
     private IAlertClient client;
 
     public IAlertClient getClient() {
@@ -38,7 +38,6 @@ public class MarketAlertUM {
         Gson parser = new Gson();
         Type eventsListType = new TypeToken<ArrayList<MarketAlertEvent>>(){}.getType();
         String jsonString = response.getBody().toString();
-        ArrayList<MarketAlertEvent> events = parser.fromJson(jsonString, eventsListType);
-        return events;
+        return parser.fromJson(jsonString, eventsListType);
     }
 }

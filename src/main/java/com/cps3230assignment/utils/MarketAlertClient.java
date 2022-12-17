@@ -9,7 +9,7 @@ import kong.unirest.Unirest;
 
 public class MarketAlertClient implements IAlertClient {
 
-    private final String baseURL = Constants.MARKET_ALERT_BASE_URL.value();
+    private final String baseURL = Constants.WEBSITE_BASE_URL.value();
     //userId should be parsed from an encrypted config file for security,
     //but that is beyond the scope of this assignment.
     private final String userId = Constants.USER_ID.value();

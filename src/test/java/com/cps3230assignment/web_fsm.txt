@@ -1,0 +1,32 @@
+States:
+    HomePage
+    MyAlertsPage
+    LoginPage
+
+Variables:
+    logged_in
+    user_id
+
+Transitions:
+    StartState -> EndState / transitionName (condition) / action
+
+    HomePage -> MyAlertsPage / gotoMyAlerts (logged_in=true) /
+    HomePage -> LoginPage / gotoMyAlerts (logged_in=false) /
+    LoginPage -> LoginPage / gotoMyAlerts (logged_in=false) /
+    MyAlertsPage -> MyAlertsPage / gotoMyAlerts /
+
+
+    HomePage -> HomePage / gotoHome /
+    LoginPage -> HomePage / gotoHome /
+    MyAlertsPage -> HomePage / gotoHome /
+
+    LoginPage -> LoginPage / login (is_valid(user_id)=false) /
+    LoginPage -> MyAlertsPage / login (is_valid(user_id)=true) / logged_in=true
+
+    HomePage -> HomePage / logout (logged_in=true) / logged_in=false
+    MyAlertsPage -> HomePage / logout (logged_in=true) / logged_in=false
+
+    HomePage -> LoginPage / gotoLogin (logged_in=false) /
+
+
+
