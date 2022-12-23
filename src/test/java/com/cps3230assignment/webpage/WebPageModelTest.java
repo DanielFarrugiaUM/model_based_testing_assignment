@@ -14,8 +14,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class WebPageModelTest implements FsmModel {
 
@@ -32,8 +37,8 @@ public class WebPageModelTest implements FsmModel {
 
     @Override
     public void reset(boolean b) {
-//        webDriver.close();
-//        webDriver = new ChromeDriver();
+        webDriver.close();
+        webDriver = new ChromeDriver();
         if(b) sut = new MarketAlertUmWebsite(webDriver);
         currentState = WebStates.HOME_PAGE;
 //        sut.home();
@@ -88,6 +93,7 @@ public class WebPageModelTest implements FsmModel {
     public @Action void login(){
         sut.login(correctUserId);
         currentState = WebStates.MY_ALERTS_PAGE;
+        loggedIn = true;
         Assert.assertEquals(sut.getAlertsUrl(), webDriver.getCurrentUrl());
     }
     //This is with an invalid user ID.
@@ -103,7 +109,7 @@ public class WebPageModelTest implements FsmModel {
         sut.logout();
         loggedIn = false;
         // Here we check redirection
-        Assert.assertEquals(sut.getBaseUrl(), webDriver.getCurrentUrl());
+        Assert.assertEquals(sut.getBaseUrl() + '/', webDriver.getCurrentUrl());
         // If the api functioned properly and api call would get return the actual value
         // that reflects whether the user is really logged in.
         // Then it could be checked with:
@@ -121,6 +127,9 @@ public class WebPageModelTest implements FsmModel {
     @Test
     public void ModelRunner(){
         System.setProperty("webdriver.chrome.driver", Constants.WEBDRIVER_PATH.value());
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
+
         final GreedyTester tester = new GreedyTester(new WebPageModelTest());
         tester.setRandom(new Random()); //Allows for a random path each time the model is run.
         tester.buildGraph(); //Builds a model of our FSM to ensure that the coverage metrics are correct.
@@ -129,7 +138,7 @@ public class WebPageModelTest implements FsmModel {
         tester.addCoverageMetric(new TransitionPairCoverage()); //Records the transition pair coverage i.e. the number of paired transitions traversed during the execution of the test.
         tester.addCoverageMetric(new StateCoverage()); //Records the state coverage i.e. the number of states which have been visited during the execution of the test.
         tester.addCoverageMetric(new ActionCoverage()); //Records the number of @Action methods which have ben executed during the execution of the test.
-        tester.generate(10); //Generates n transitions
+        tester.generate(20); //Generates n transitions
         tester.printCoverage(); //Prints the coverage metrics specified above.
     }
 }
