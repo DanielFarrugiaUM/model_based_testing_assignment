@@ -1,12 +1,7 @@
 package com.cps3230assignment;
 
-import com.cps3230assignment.models.*;
-import com.cps3230assignment.utils.MarketAlertClient;
-import com.cps3230assignment.utils.Navigator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args){
@@ -31,7 +26,7 @@ public class Main {
 
         System.setProperty("webdriver.chrome.driver", Constants.WEBDRIVER_PATH.value());
         WebDriver webDriver = new ChromeDriver();
-        Navigator nav = new Navigator(webDriver);
+        MarketAlertUmWebsite nav = new MarketAlertUmWebsite(webDriver);
         nav.home();
         nav.loginPage();
         nav.login(Constants.USER_ID.value());
