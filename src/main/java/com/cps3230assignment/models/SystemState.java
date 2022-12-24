@@ -6,7 +6,12 @@ import java.util.List;
 public class SystemState {
     private String userId;
     private boolean loggedIn;
-    List<Alert> alerts = new ArrayList<Alert>();
+
+    public List<UploadAlertResponse> getAlerts() {
+        return alerts;
+    }
+
+    List<UploadAlertResponse> alerts = new ArrayList<UploadAlertResponse>();
 
 
     // Getter Methods

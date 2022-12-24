@@ -2,6 +2,7 @@ package com.cps3230assignment.webpage;
 
 import com.cps3230assignment.Constants;
 import com.cps3230assignment.MarketAlertUmWebsite;
+import com.cps3230assignment.alertsAPI.ApiModelTest;
 import com.cps3230assignment.webpage.enums.WebStates;
 import nz.ac.waikato.modeljunit.Action;
 import nz.ac.waikato.modeljunit.FsmModel;

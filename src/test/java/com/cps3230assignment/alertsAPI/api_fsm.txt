@@ -1,0 +1,16 @@
+States:
+    Accepting
+    Replacing
+
+Variables:
+    alerts []
+
+Transitions:
+    StartState -> EndState / transitionName (condition) / action
+
+    Accepting -> Accepting / uploadAlert(A) (count(alerts) < 4) / add(alerts, A)
+    Accepting -> Replacing / uploadAlert(A) (count(alerts) = 4) / add(alerts, A)
+    Replacing -> Replacing / uploadAlert(A) / removeOldest(alerts) & add(alerts, A)
+
+    Replacing -> Accepting / purgeAlerts / alerts = []
+    Accepting -> Accepting / purgeAlerts / alerts = []

@@ -3,6 +3,7 @@ package com.cps3230assignment;
 import com.cps3230assignment.interfaces.IAlertClient;
 import com.cps3230assignment.models.Alert;
 import com.cps3230assignment.models.MarketAlertEvent;
+import com.cps3230assignment.models.UploadAlertResponse;
 import com.google.gson.Gson;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -14,6 +15,10 @@ import java.util.ArrayList;
 public class MarketAlertUmAPI {
     private IAlertClient client;
 
+    public MarketAlertUmAPI(IAlertClient client){
+        this.client = client;
+    }
+
     public IAlertClient getClient() {
         return client;
     }
@@ -22,9 +27,12 @@ public class MarketAlertUmAPI {
         this.client = client;
     }
 
-    public boolean postAlert(Alert alert){
+    public UploadAlertResponse postAlert(Alert alert){
         HttpResponse<JsonNode> response = client.postAlert(alert);
-        return response.isSuccess();
+
+        Gson parser = new Gson();
+        String jsonString = response.getBody().toString();
+        return parser.fromJson(jsonString, UploadAlertResponse.class);
     }
 
     public boolean purgeAlerts(){
