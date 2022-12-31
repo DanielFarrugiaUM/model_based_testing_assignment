@@ -5,11 +5,7 @@ import com.cps3230assignment.MarketAlertUmAPI;
 import com.cps3230assignment.alertsAPI.enums.ApiStates;
 import com.cps3230assignment.models.*;
 import com.cps3230assignment.utils.MarketAlertClient;
-import com.cps3230assignment.webpage.WebPageModelTest;
-import nz.ac.waikato.modeljunit.Action;
-import nz.ac.waikato.modeljunit.FsmModel;
-import nz.ac.waikato.modeljunit.GreedyTester;
-import nz.ac.waikato.modeljunit.StopOnFailureListener;
+import nz.ac.waikato.modeljunit.*;
 import nz.ac.waikato.modeljunit.coverage.ActionCoverage;
 import nz.ac.waikato.modeljunit.coverage.StateCoverage;
 import nz.ac.waikato.modeljunit.coverage.TransitionPairCoverage;
@@ -51,7 +47,7 @@ public class ApiModelTest implements FsmModel {
 
             boolean isSuccessful = sut.purgeAlerts();
             if(!isSuccessful) throw new RuntimeException("Unable to purge alert on restart");
-
+            alerts.clear();
             sut.getEventsLog();
 
             currentState = ApiStates.ACCEPTING;
@@ -84,7 +80,7 @@ public class ApiModelTest implements FsmModel {
             alerts.add(0, uploadResponse.getId());
 
         } else if (currentState == ApiStates.REPLACING) {
-            alerts.remove(0);
+            alerts.remove(4);
             alerts.add(0, uploadResponse.getId());
         }
         Assert.assertEquals(EventLogType.ALERT_CREATED.value(), eventLogType);
@@ -113,15 +109,15 @@ public class ApiModelTest implements FsmModel {
 
     @Test
     public void modelRunner(){
-        final GreedyTester tester = new GreedyTester(new ApiModelTest());
+        final RandomTester tester = new RandomTester(new ApiModelTest());
         tester.setRandom(new Random()); //Allows for a random path each time the model is run.
         tester.buildGraph(); //Builds a model of our FSM to ensure that the coverage metrics are correct.
-        tester.addListener(new StopOnFailureListener()); //This listener forces the test class to stop running as soon as a failure is encountered in the model.
+        //tester.addListener(new StopOnFailureListener()); //This listener forces the test class to stop running as soon as a failure is encountered in the model.
         tester.addListener("verbose"); //This gives you printed statements of the transitions being performed along with the source and destination states.
         tester.addCoverageMetric(new TransitionPairCoverage()); //Records the transition pair coverage i.e. the number of paired transitions traversed during the execution of the test.
         tester.addCoverageMetric(new StateCoverage()); //Records the state coverage i.e. the number of states which have been visited during the execution of the test.
         tester.addCoverageMetric(new ActionCoverage()); //Records the number of @Action methods which have been executed during the execution of the test.
-        tester.generate(20); //Generates n transitions
+        tester.generate(100); //Generates n transitions
         tester.printCoverage(); //Prints the coverage metrics specified above.
     }
 }

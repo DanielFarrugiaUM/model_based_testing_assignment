@@ -2,12 +2,10 @@ package com.cps3230assignment.webpage;
 
 import com.cps3230assignment.Constants;
 import com.cps3230assignment.MarketAlertUmWebsite;
-import com.cps3230assignment.alertsAPI.ApiModelTest;
 import com.cps3230assignment.webpage.enums.WebStates;
 import nz.ac.waikato.modeljunit.Action;
 import nz.ac.waikato.modeljunit.FsmModel;
 import nz.ac.waikato.modeljunit.GreedyTester;
-import nz.ac.waikato.modeljunit.StopOnFailureListener;
 import nz.ac.waikato.modeljunit.coverage.ActionCoverage;
 import nz.ac.waikato.modeljunit.coverage.StateCoverage;
 import nz.ac.waikato.modeljunit.coverage.TransitionPairCoverage;
@@ -15,11 +13,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -139,7 +134,7 @@ public class WebPageModelTest implements FsmModel {
         tester.addCoverageMetric(new TransitionPairCoverage()); //Records the transition pair coverage i.e. the number of paired transitions traversed during the execution of the test.
         tester.addCoverageMetric(new StateCoverage()); //Records the state coverage i.e. the number of states which have been visited during the execution of the test.
         tester.addCoverageMetric(new ActionCoverage()); //Records the number of @Action methods which have ben executed during the execution of the test.
-        tester.generate(20); //Generates n transitions
+        tester.generate(100); //Generates n transitions
         tester.printCoverage(); //Prints the coverage metrics specified above.
     }
 }
